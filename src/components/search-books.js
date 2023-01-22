@@ -18,14 +18,28 @@ const SearchBooks=({handelChange})=>{
        const allBooks =  await BookAPi.search(value);
 
          console.log(allBooks)
+
           if(!allBooks.error)
-           setBooks(allBooks)
+              {
+                setBooks(allBooks);
+              }
+           
+
+          else 
+            {
+              setBooks([]);
+            }
+           
+
       }
      
       if(value!=="")
           getBooks();   
           
-      setBooks([]) ;
+      else if(value==="")
+      {
+        setBooks([])
+      }
 
       }
 
@@ -50,9 +64,10 @@ const SearchBooks=({handelChange})=>{
                 
                     {
                      Books.map((book)=>{
-
+                       if(book.id){
                         const imgLink =book.imageLinks.thumbnail;
                         let authors ="";
+                        if(book.authors)
                         book.authors.forEach((a)=>authors+=a+" ")
                           return (
                             <li key={book.id}>
@@ -67,14 +82,17 @@ const SearchBooks=({handelChange})=>{
                                       `url(${imgLink})`,
                                   }}
                                 ></div>
-                                <BookChanger shlfName={(book.shelf)?book.shelf:"none"} ID={book.id} handelChange={handelChange}/>
+                                <BookChanger search={true} shlfName={(book.shelf)?book.shelf:"none"} ID={book.id}  handelChange={handelChange}/>
                               </div>
                               <div className="book-title">{book.title}</div>
                               <div className="book-authors">{authors}</div>
                             </div>
                           </li>
                           )
-                      })
+                      }
+                   
+                       }
+                       )
                     }
               
                   </ol>

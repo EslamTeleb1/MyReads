@@ -21,17 +21,30 @@ function App() {
 
   },[]);
 
-   const handelChange=(ID,shelfName)=>{
+   const handelChange=(search=false,ID,shelfName)=>{
 
       let updateBook =async ()=>{
 
       const book = await BookAPi.get(ID);
-       setBooks(Books.map((book)=>
+
+      if(!search)
+       setBooks(Books.map((b)=>
          {
-          if(book.id===ID)
-             book.shelf=shelfName;
-            return book;   
+          if(b.id===ID)
+             {
+              b.shelf=shelfName;
+              console.log(b);
+            }
+
+             
+            return b;   
          }));
+         
+        if(search)
+        {
+          book.shelf=shelfName;
+          setBooks([...Books,book])
+        }
          await BookAPi.update(book,shelfName);  
 
       } 
