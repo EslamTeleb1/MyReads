@@ -63,36 +63,39 @@ const SearchBooks=({handelChange})=>{
          
                 
                     {
-                     Books.map((book)=>{
-                       if(book.id){
-                        const imgLink =book.imageLinks.thumbnail;
-                        let authors ="";
-                        if(book.authors)
-                        book.authors.forEach((a)=>authors+=a+" ")
-                          return (
-                            <li key={book.id}>
-                            <div className="book">
-                              <div className="book-top">
-                                <div
-                                  className="book-cover"
-                                  style={{
-                                    width: 128,
-                                    height: 193,
-                                    backgroundImage:
-                                      `url(${imgLink})`,
-                                  }}
-                                ></div>
-                                <BookChanger search={true} shlfName={(book.shelf)?book.shelf:"none"} ID={book.id}  handelChange={handelChange}/>
-                              </div>
-                              <div className="book-title">{book.title}</div>
-                              <div className="book-authors">{authors}</div>
-                            </div>
-                          </li>
-                          )
-                      }
-                   
-                       }
-                       )
+                     Books.map((book) => {
+  if (!book.id) return null;
+
+  const imgLink = book.imageLinks?.thumbnail;
+  const authors = book.authors?.join(" ") || "";
+
+  return (
+    <li key={book.id}>
+      <div className="book">
+        <div className="book-top">
+          <div
+            className="book-cover"
+            style={{
+              width: 128,
+              height: 193,
+              backgroundImage: `url(${imgLink})`,
+            }}
+          ></div>
+
+          <BookChanger
+            search={true}
+            shlfName={book.shelf ? book.shelf : "none"}
+            ID={book.id}
+            handelChange={handelChange}
+          />
+        </div>
+
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">{authors}</div>
+      </div>
+    </li>
+  );
+})
                     }
               
                   </ol>
