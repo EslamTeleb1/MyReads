@@ -13,9 +13,8 @@ const BookShelf =({shelfBooks,shelfTitle,handelChange})=>{
                     {
                       shelfBooks.map((book)=>{
 
-                        const imgLink =book.imageLinks.thumbnail;
-                        let authors ="";
-                        book.authors.forEach((a)=>authors+=a+" ")
+                        const imgLink = book.imageLinks?.thumbnail || "";
+                        const authors = (book.authors || []).join(" ");
                           return (
                             <li key={book.id}>
                             <div className="book">
