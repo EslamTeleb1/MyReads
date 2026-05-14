@@ -9,7 +9,7 @@ To get use it  right away:
 
 - install all project dependencies with `npm install`
 - start the development server with `npm start`
-
+2026
 ## What You're Getting
 
 ```bash
