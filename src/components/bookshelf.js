@@ -5,45 +5,41 @@ import BookChanger from "./book-shelf-changer";
 const BookShelf =({shelfBooks,shelfTitle,handelChange})=>{
 
 
-    return (
-        <div className="bookshelf">
-                <h2 className="bookshelf-title" value={shelfTitle}>{shelfTitle}</h2>
-                <div className="bookshelf-books">
-                  <ol className="books-grid">
-                    {
-                      shelfBooks.map((book)=>{
-
-                        const imgLink = book.imageLinks?.thumbnail || "";
-                        const authors = (book.authors || []).join(" ");
-                          return (
-                            <li key={book.id}>
-                            <div className="book">
-                              <div className="book-top">
-                                <div
-                                  className="book-cover"
-                                  style={{
-                                    width: 128,
-                                    height: 193,
-                                    backgroundImage:
-                                      `url(${imgLink})`,
-                                  }}
-                                ></div>
-                                <BookChanger shlfName={book.shelf} ID={book.id} handelChange={handelChange}/>
-                              </div>
-                              <div className="book-title">{book.title}</div>
-                              <div className="book-authors">{authors}</div>
-                            </div>
-                          </li>
-                          )
-                      })
-                    }
-              
-                  </ol>
-                </div>
-              </div>
-
-    
-    )
+  return (
+    <div className="bookshelf">
+      <h2 className="bookshelf-title" value={shelfTitle}>
+        {shelfTitle} <span className="shelf-count">({shelfBooks.length})</span>
+      </h2>
+      <div className="bookshelf-books">
+        {shelfBooks.length === 0 ? (
+          <div className="shelf-empty">No books yet — try adding from Search.</div>
+        ) : (
+          <ol className="books-grid">
+            {shelfBooks.map((book) => {
+              const imgLink = book.imageLinks?.thumbnail || "";
+              const authors = (book.authors || []).join(" ");
+              return (
+                <li key={book.id}>
+                  <div className="book">
+                    <div className="book-top">
+                      <div
+                        className="book-cover"
+                        style={{ width: 128, height: 193, backgroundImage: `url(${imgLink})` }}
+                      ></div>
+                      <BookChanger shlfName={book.shelf} ID={book.id} handelChange={handelChange} />
+                    </div>
+                    <div className="book-title">{book.title}</div>
+                    <div className="book-authors">{authors}</div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        )}
+      </div>
+    </div>
+  );
+//     )
 }
 
 // BookShelf.propTypes={

@@ -1,12 +1,13 @@
 import "./App.css";
 import  ListBooks from "./components/list-books";
 import SearchBooks from "./components/search-books";
+import MockPreview from "./components/MockPreview";
 import { Route, Routes} from "react-router-dom";
 import *  as BookAPi from "./BooksAPI"  ;
 import { useState ,useEffect } from "react";
 
 function App() {
-  const [Books,setBooks]= useState([]);
+  const [Books, setBooks] = useState([]);
   
   useEffect(() => {
     
@@ -21,37 +22,28 @@ function App() {
 
   },[]);
 
-   const handelChange=(search=false,ID,shelfName)=>{
+  const handelChange = (search = false, ID, shelfName) => {
+    const updateBook = async () => {
+      try {
+        const book = await BookAPi.get(ID);
+        const updatedBook = { ...book, shelf: shelfName };
 
-      let updateBook =async ()=>{
+        setBooks((prev) => {
+          const exists = prev.some((b) => b.id === ID);
+          if (exists) {
+            return prev.map((b) => (b.id === ID ? { ...b, shelf: shelfName } : b));
+          }
+          return [...prev, updatedBook];
+        });
 
-      const book = await BookAPi.get(ID);
+        await BookAPi.update(book, shelfName);
+      } catch (err) {
+        console.error("Failed to update book shelf:", err);
+      }
+    };
 
-      if(!search)
-       setBooks(Books.map((b)=>
-         {
-          if(b.id===ID)
-             {
-              b.shelf=shelfName;
-              console.log(b);
-            }
-
-             
-            return b;   
-         }));
-         
-        if(search)
-        {
-          book.shelf=shelfName;
-          setBooks([...Books,book])
-        }
-         await BookAPi.update(book,shelfName);  
-
-      } 
-      
-      updateBook();
-        
-   }
+    updateBook();
+  };
 
   return (
     <Routes>
@@ -67,9 +59,10 @@ function App() {
         exact
         path="/search"
         element={
-        <SearchBooks handelChange={handelChange}></SearchBooks>
+          <SearchBooks handelChange={handelChange} libraryBooks={Books} />
         }
       />
+      <Route exact path="/mock" element={<MockPreview />} />
        <Route
         path="*"
         element={<h1>404 Page Not Found</h1>}

@@ -42,6 +42,24 @@ body,
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
 }
+
+.bookshelf-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+}
+.shelf-count {
+  font-weight: 400;
+  color: rgba(0,0,0,0.6);
+  font-size: 0.9em;
+}
+
+.shelf-empty {
+  padding: 28px 6px;
+  color: rgba(0,0,0,0.55);
+  font-style: italic;
+}
 .bookshelf-books {
   text-align: center;
 }
@@ -174,4 +192,57 @@ body,
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+/* shelf badge shown on search results when a book is in a shelf */
+.shelf-badge {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  background: rgba(46, 125, 50, 0.95);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 0.7em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-transform: none;
+}
+
+/* transient toast that appears near the shelf button */
+.book-shelf-changer .change-toast {
+  position: absolute;
+  right: 48px;
+  bottom: 0;
+  background: rgba(46, 125, 50, 0.98);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: none;
+}
+.book-shelf-changer .change-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.book-shelf-changer .change-toast .check {
+  font-weight: 700;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* saved animation for book cover */
+.book-cover.saved {
+  animation: saved-pulse 520ms ease;
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.24), 0 6px 20px rgba(0,0,0,0.18);
+}
+@keyframes saved-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
 }
